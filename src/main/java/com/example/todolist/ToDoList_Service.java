@@ -1,8 +1,6 @@
 package com.example.todolist;
 
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +10,15 @@ public class ToDoList_Service {
 
     private Long counter = 0L;
     private final Map<Long, Task> collection = new HashMap<>();
+    private DatabaseTasks databaseTasks = new DatabaseTasks();
 
-    @PostMapping("/post")
-    public void task(@RequestParam(value = "task_desc", defaultValue = "Something need to do...") String task_description)
+    @PostMapping("tasks")
+    public void task(@RequestBody Task task)
     {
-        collection.put(counter, new Task(counter++, task_description, LocalDate.now().plusDays(2)));
+        task.setId(counter);
+        collection.put(counter, task);
+        counter++;
+        databaseTasks.insertTask(collection.get(0));
     }
 
     @GetMapping("/tasks")

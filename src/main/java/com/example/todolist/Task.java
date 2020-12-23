@@ -4,16 +4,19 @@ import java.time.LocalDate;
 
 public class Task {
 
-    private final long id;
+    private long id;
     private final String content;
     private final LocalDate postDate;
     private final LocalDate dueDate;
 
-    public Task(long id, String content, LocalDate dueDate) {
-        this.id = id;
+    public Task(String content, LocalDate dueDate) {
         this.content = content;
         this.postDate = LocalDate.now();
         this.dueDate = dueDate;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
     public long getId() {
