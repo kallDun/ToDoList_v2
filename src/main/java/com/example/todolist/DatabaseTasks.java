@@ -1,13 +1,13 @@
 package com.example.todolist;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseTasks {
 
     private final String password = "1234";
-    private final String url = "jdbc:postgresql://localhost:5432/postgres";
+    private final String url = "jdbc:postgresql://localhost:5432/tasks";
     private final String user = "postgres";
-    private final String tableName = "task";
 
     public DatabaseTasks(){
         try {
@@ -23,19 +23,48 @@ public class DatabaseTasks {
     }
 
     public void insertTask(Task task){
-        String SQL = "INSERT INTO " + tableName + "(id, content, postdate, duedate) " + "VALUES(?,?,?,?)";
+        String SQL =
+                "INSERT INTO task (id, content, postdate, duedate) " +
+                String.format("VALUES('%s','%s','%s','%s')",
+                        task.getId(),
+                        task.getContent(),
+                        java.sql.Date.valueOf(task.getPostDate()),
+                        java.sql.Date.valueOf(task.getDueDate()));
 
         try (Connection conn = connect();
-             PreparedStatement database = conn.prepareStatement(SQL,
-                     Statement.RETURN_GENERATED_KEYS)) {
-
-            database.setLong(0, task.getId());
-            database.setString(1, task.getContent());
-            database.setDate(2, java.sql.Date.valueOf(task.getPostDate()));
-            database.setDate(3, java.sql.Date.valueOf(task.getDueDate()));
+             Statement database = conn.createStatement())
+        {
+            database.executeUpdate(SQL);
 
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public ArrayList<String[]> getTableTasks(){
+        try (Connection conn = connect();
+             Statement database = conn.createStatement())
+        {
+            ArrayList <String[]> result = new ArrayList<String[]>();
+
+            ResultSet rs = database.executeQuery("SELECT * FROM task");
+            int columnCount = rs.getMetaData().getColumnCount();
+
+            while(rs.next())
+            {
+                String[] row = new String[columnCount];
+                for (int i = 0; i < columnCount; i++) {
+                    row[i] = (rs.getString(i + 1));
+                }
+                result.add(row);
+            }
+
+            return result;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
     }
 }
