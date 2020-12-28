@@ -1,8 +1,14 @@
 com/example/todolist/ApplicationStart.java
  com.example.todolist.ApplicationStart
-com/example/todolist/Task.java
- com.example.todolist.Task
-com/example/todolist/DatabaseTasks.java
- com.example.todolist.DatabaseTasks
-com/example/todolist/ToDoList_Service.java
- com.example.todolist.ToDoList_Service
+com/example/todolist/services/TaskService.java
+ com.example.todolist.services.TaskService
+com/example/todolist/models/Task.java
+ com.example.todolist.models.Task
+com/example/todolist/jdbc/DatabaseTasks.java
+ com.example.todolist.jdbc.DatabaseTasks
+com/example/todolist/dbConnections/HibernateSessionFactory.java
+ com.example.todolist.dbConnections.HibernateSessionFactory
+com/example/todolist/dao/TaskDao.java
+ com.example.todolist.dao.TaskDao
+com/example/todolist/controllers/ToDoList_Controller.java
+ com.example.todolist.controllers.ToDoList_Controller

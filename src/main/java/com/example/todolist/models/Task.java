@@ -1,25 +1,27 @@
-package com.example.todolist;
+package com.example.todolist.models;
 
+
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "task")
 public class Task {
 
-    private long id;
-    private final String content;
-    private final LocalDate postDate;
-    private final LocalDate dueDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Task(String content, LocalDate dueDate) {
-        this.content = content;
-        this.postDate = LocalDate.now();
-        this.dueDate = dueDate;
-    }
+    private String content;
 
-    public void setId(long id){
-        this.id = id;
-    }
+    private LocalDate postDate;
 
-    public long getId() {
+    private LocalDate dueDate;
+
+    public Long getId() {
         return id;
     }
 
@@ -33,6 +35,32 @@ public class Task {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPostDate(LocalDate postDate) {
+        this.postDate = postDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Task(){
+
+    }
+
+    public Task(String content, LocalDate dueDate){
+        this.content = content;
+        this.dueDate = dueDate;
+        this.postDate = LocalDate.now();
     }
 
 }

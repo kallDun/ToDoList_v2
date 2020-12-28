@@ -1,4 +1,4 @@
-package com.example.todolist;
+package com.example.todolist.dbConnections;
 
 import com.example.todolist.models.Task;
 import org.hibernate.SessionFactory;
@@ -13,7 +13,8 @@ public class HibernateSessionFactory {
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
-                Configuration configuration = new Configuration().configure();
+                Configuration configuration = new Configuration();
+                configuration.configure();
                 configuration.addAnnotatedClass(Task.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

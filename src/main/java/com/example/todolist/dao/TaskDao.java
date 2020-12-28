@@ -1,5 +1,6 @@
-package com.example.todolist;
+package com.example.todolist.dao;
 
+import com.example.todolist.dbConnections.HibernateSessionFactory;
 import com.example.todolist.models.Task;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

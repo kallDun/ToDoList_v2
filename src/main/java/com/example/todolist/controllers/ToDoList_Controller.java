@@ -1,73 +1,35 @@
-package com.example.todolist.services;
+package com.example.todolist.controllers;
 
-import com.example.todolist.jdbc.DatabaseTasks;
 import com.example.todolist.models.Task;
+import com.example.todolist.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
-public class ToDoList_Service {
+public class ToDoList_Controller {
 
-    private Long counter = 0L;
-    private final Map<Long, Task> collection = new HashMap<>();
+    TaskService taskService = new TaskService();
 
-    private DatabaseTasks databaseTasks = new DatabaseTasks();
-
-
-    @PostMapping("/test") // Временный метод для тестов вставки
-    public void dbTest(){
-        /*Task task = new Task("new Content", LocalDate.now().plusDays(3));
-        //task.setId(counter);
-        counter++;
-
-        try {
-            databaseTasks.insertTask(task);
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }*/
-    }
-
-    @GetMapping("/test") // Возвращает в json таблицу из базы данных
-    public ArrayList<ArrayList<String[]>> taskReturn()
-    {
-        try {
-            return databaseTasks.getTableTasks();
-
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
-    }
-
-    @PostMapping("tasks")
-    public void task(@RequestBody Task task)
-    {
-        //task.setId(counter);
-        collection.put(counter, task);
-        counter++;
-
-        try {
-            databaseTasks.insertTask(collection.get(counter - 1));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+    @PostMapping("/tasks")
+    public void dbAdd(@RequestBody Task task){
+        taskService.saveTask(task);
     }
 
     @GetMapping("/tasks")
-    public Collection<Task> taskMap()
-    {
-        return collection.values();
+    public List<Task> dbGet(){
+        return taskService.findAllTasks();
     }
 
-    @DeleteMapping("/remove/{id}")
-    public void removeTask(@PathVariable long id){
-        collection.remove(id);
+
+
+
+    @PostMapping("/test") // Временный метод для быстрых тестов вставки Task
+    public void dbTest(){
+        Task task = new Task("Content", LocalDate.now().plusDays(2));
+        taskService.saveTask(task);
+        taskService.updateTask(task);
     }
 
 }

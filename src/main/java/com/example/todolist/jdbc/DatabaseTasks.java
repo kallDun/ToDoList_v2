@@ -1,4 +1,6 @@
-package com.example.todolist;
+package com.example.todolist.jdbc;
+
+import com.example.todolist.models.Task;
 
 import java.sql.*;
 import java.text.MessageFormat;
